@@ -31,14 +31,14 @@ public class Model {
 		
 		Graphs.addAllVertices(this.grafo, this.stati);
 		
-		/*for(Tratta t : tratte) {
+		for(Tratta t : tratte) {
 			DefaultWeightedEdge e = grafo.getEdge(t.getS1(), t.getS2());
 			if(e==null) {
 				Graphs.addEdgeWithVertices(this.grafo, t.getS1(), t.getS2(), t.getVelivoli());
 			}
-		}*/
+		}
 		
-		for(String stato1 : stati){
+		/*for(String stato1 : stati){
 			for(String stato2 : stati){
 				int nVeivoli = dao.getVeivoli(stato1,stato2);
 				DefaultWeightedEdge e = grafo.getEdge(stato1, stato2);
@@ -48,9 +48,10 @@ public class Model {
 				
 			}
 			
-		}
+		}*/
 			
-		
+		System.out.println("Graphs vertex set: " + grafo.vertexSet().size());
+		System.out.println("Graphs edge set: " + grafo.edgeSet().size());
 	}
 
 }
