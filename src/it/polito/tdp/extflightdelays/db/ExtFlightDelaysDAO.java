@@ -11,6 +11,7 @@ import java.util.List;
 import it.polito.tdp.extflightdelays.model.Airline;
 import it.polito.tdp.extflightdelays.model.Airport;
 import it.polito.tdp.extflightdelays.model.Flight;
+import it.polito.tdp.extflightdelays.model.Tratta;
 
 public class ExtFlightDelaysDAO {
 
@@ -104,6 +105,36 @@ public class ExtFlightDelaysDAO {
 						rs.getDouble("ELAPSED_TIME"), rs.getInt("DISTANCE"),
 						rs.getTimestamp("ARRIVAL_DATE").toLocalDateTime(), rs.getDouble("ARRIVAL_DELAY"));
 				result.add(flight);
+			}
+
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
+	
+	
+	public List<Tratta> calcolaArchi (){
+		String sql = "SELECT a1.state AS st1, a2.state AS st2,  COUNT(DISTINCT f.TAIL_NUMBER) AS cnt " + 
+				"FROM  airports AS a1, flights AS f, airports AS a2 " + 
+				"WHERE f.ORIGIN_AIRPORT_ID = a1.ID " + 
+				"AND f.DESTINATION_AIRPORT_ID = a2.id "+
+				"GROUP BY a1.state, a2.state ";
+		List<Tratta> result = new LinkedList<Tratta>();
+
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Tratta tratta = new Tratta(rs.getString("st1"), rs.getString("st2"), rs.getInt("cnt"));
+				result.add(tratta);
 			}
 
 			conn.close();
