@@ -123,7 +123,6 @@ public class ExtFlightDelaysDAO {
 				"FROM  airports AS a1, flights AS f, airports AS a2 " + 
 				"WHERE f.ORIGIN_AIRPORT_ID = a1.ID " + 
 				"AND f.DESTINATION_AIRPORT_ID = a2.id "+
-				"AND a1.state<>a2.state " +
 				"GROUP BY a1.state, a2.state ";
 		List<Tratta> result = new LinkedList<Tratta>();
 
